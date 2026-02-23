@@ -8,8 +8,7 @@ services:
     environment:
       SITE_REPO: "https://github.com/camwolff02/website-infra.git"
       SITE_BRANCH: "main"
-      POLL_SECONDS: "60"
-      # If your static files live in a subfolder (React/Vite output), set one:
+      # If your static files live in a subfolder, set one:
       # SERVE_SUBDIR: "dist"
       LISTEN_PORT: "3000"
     volumes:
