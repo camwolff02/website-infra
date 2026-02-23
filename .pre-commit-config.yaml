@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: docker-build-run-smoke
+        name: Docker build + run + localhost smoke test
+        entry: bash scripts/precommit_docker_smoke.sh
+        language: system
+        pass_filenames: false

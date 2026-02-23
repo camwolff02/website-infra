@@ -4,13 +4,12 @@ services:
     container_name: website
     restart: unless-stopped
     ports:
-      - "8080:3000"
+      - "${HOST_PORT:-8080}:3000"
     environment:
       SITE_REPO: "https://github.com/camwolff02/website-infra.git"
       SITE_BRANCH: "main"
-      # If your static files live in a subfolder, set one:
-      # SERVE_SUBDIR: "dist"
       LISTEN_PORT: "3000"
+      # SERVE_SUBDIR: "web"   # if needed
     volumes:
       # Persist the git clone so restarts are fast and updates are incremental
       - website_repo:/site
