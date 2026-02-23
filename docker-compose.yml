@@ -1,28 +1,20 @@
-name: build-and-push
-on:
-  push:
-    branches: ["main"]
+services:
+  website:
+    build: .
+    container_name: website
+    restart: unless-stopped
+    ports:
+      - "8080:3000"
+    environment:
+      SITE_REPO: "https://github.com/camwolff02/website-infra.git"
+      SITE_BRANCH: "main"
+      POLL_SECONDS: "60"
+      # If your static files live in a subfolder (React/Vite output), set one:
+      # SERVE_SUBDIR: "dist"
+      LISTEN_PORT: "3000"
+    volumes:
+      # Persist the git clone so restarts are fast and updates are incremental
+      - website_repo:/site
 
-permissions:
-  contents: read
-  packages: write
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:main
-            ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+volumes:
+  website_repo:
